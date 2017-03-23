@@ -14,7 +14,7 @@ fdf_file = open("file_fdf.fdf","w")
 fdf_file.write(fdf_data) 
 fdf_file.close()
 #Run pdftk system command to populate the pdf file. The file "file_fdf.fdf" is pushed in to "input_pdf.pdf" thats generated as a new "output_pdf.pdf" file.
-##pdftk_cmd = "pdftk input_pdf.pdf fill_form file_fdf.fdf output output_pdf.pdf flatten"
-##os.system(pdftk_cmd)
+pdftk_cmd = "pdftk test_form.pdf fill_form file_fdf.fdf output output_pdf.pdf flatten"
+os.system(pdftk_cmd)
 #Remove the fdf file
 ##os.remove("file_fdf.fdf")
