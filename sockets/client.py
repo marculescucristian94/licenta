@@ -1,11 +1,11 @@
-#!/usr/bin/python           # This is client.py file
+#!/usr/bin/python
 
-import socket               # Import socket module
+import socket
 
-s = socket.socket()         # Create a socket object
-host = '172.19.7.74' # Get local machine name
-port = 12345                # Reserve a port for your service.
+s = socket.socket()
+# Get IP address of fingerpi
+host_port = socket.getaddrinfo('fingerpi.local', 12345)[0][4] 
 
-s.connect((host, port))
+s.connect(host_port)
 print s.recv(1024)
-s.close                     # Close the socket when done
+s.close
