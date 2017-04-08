@@ -14,10 +14,11 @@ s.bind((host, port))        # Bind to the port
 s.listen(5)                 # Now wait for client connection.
 while True:
    c, addr = s.accept()     # Establish connection with client.
-   if not addr in queue_dict:
-      queue_dict[addr] = most_recent
+   if not addr[0] in queue_dict:
+      queue_dict[addr[0]] = most_recent
       most_recent += 1
-   response = 'Current ticket: ' + str(current_ticket) + ', Your ticket: ' + str(queue_dict[addr])   
+   print queue_dict
+   response = 'Current ticket: ' + str(current_ticket) + ', Your ticket: ' + str(queue_dict[addr[0]])   
    print 'Got connection from', addr
    c.send(response)
    c.close()                # Close the connection
