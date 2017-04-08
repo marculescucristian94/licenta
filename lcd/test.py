@@ -11,4 +11,4 @@ mylcd.lcd_clear()
 mylcd.lcd_display_string("clear the screen", 1)
 sleep(1)
 
-mylcd.lcd_clear()
+#mylcd.lcd_clear()
