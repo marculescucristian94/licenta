@@ -29,6 +29,7 @@ class AddMenu(QtGui.QMainWindow):
         else:
             event.ignore()
 
+# TODO: 'Add fields' button
 class AddMenuWindowWidget(QtGui.QWidget):
 
     def __init__(self, parent):
