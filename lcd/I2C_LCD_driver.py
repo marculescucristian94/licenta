@@ -99,6 +99,10 @@ LCD_5x8DOTS = 0x00
 LCD_BACKLIGHT = 0x08
 LCD_NOBACKLIGHT = 0x00
 
+# maximum string length
+STR_MAX_LEN = 32
+LINE_MAX = 16
+
 En = 0b00000100 # Enable bit
 Rw = 0b00000010 # Read/Write bit
 Rs = 0b00000001 # Register select bit
@@ -175,5 +179,35 @@ class lcd:
       self.lcd_write(0x40);
       for char in fontdata:
          for line in char:
-            self.lcd_write_char(line)         
+            self.lcd_write_char(line)
+
+   # display text on both lines   
+   def lcd_display_text(self, string):
+      self.lcd_clear()
+      if len(string) > STR_MAX_LEN:
+         self.lcd_display_string("Too much text!", 1)
+         return
+      words = string.split(' ')
+      line1 = []
+      line2 = []
+      first_line = True
+      for word in words:
+         if first_line:
+            if len(''.join(line1)) + len(word) + 1 <= LINE_MAX:
+               line1.append(word + ' ')
+            else:
+               first_line = False
+               line2.append(word + ' ')
+         else:
+            line2.append(word + ' ')
+      self.lcd_display_string(''.join(line1), 1)
+      self.lcd_display_string(''.join(line2), 2)
+      print line1
+      print line2
+            
+         
+         
+
+
+      
          

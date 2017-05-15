@@ -3,12 +3,9 @@ from time import *
 
 mylcd = I2C_LCD_driver.lcd()
 
-mylcd.lcd_display_string("This is how you", 1)
-sleep(1)
+while True:
+    mylcd.lcd_display_text('Awaiting connection...')
+    sleep(1)
+    mylcd.lcd_clear()
+    sleep(1)
 
-mylcd.lcd_clear()
-
-mylcd.lcd_display_string("clear the screen", 1)
-sleep(1)
-
-#mylcd.lcd_clear()
