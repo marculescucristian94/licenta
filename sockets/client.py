@@ -3,18 +3,19 @@
 import socket
 
 s = socket.socket()
-# Get IP address of fingerpi, works on Linux
-host_port = socket.getaddrinfo('fingerpi.local', 12345)[0][4]
-print host_port
+# mDNS version
+server_info = socket.getaddrinfo('fingerpi.local', 12345)[0][4]
+print server_info
+host = server_info[0]
+port = server_info[1]
+s.connect((host, port))
 
-# Get IP address of fingerpi, works on Windows
-#host = 'localhost'
-#port = 12345
+# Hard-coded IP address
+'''
+host = 'localhost'
+port = 12345
+s.connect((host, port))
+'''
 
-# Connect from Linux client
-s.connect(host_port)
-
-# Connect from Windows client
-#s.connect((host, port))
 print s.recv(1024)
 s.close
