@@ -1,35 +1,42 @@
-#!/usr/bin/python           # This is server.py file
+#!/usr/bin/python
 
-import socket               # Import socket module
-import time
+import socket
+import fcntl
+import struct
 
-queue_dict = {}
-#current_ticket = 0
-#most_recent = 0
+def get_ip_address(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,  # SIOCGIFADDR
+        struct.pack('256s', ifname[:15])
+    )[20:24])
 
-s = socket.socket()         # Create a socket object
-host = 'localhost'          # Get local machine name
-port = 12345                # Reserve a port for your service.
-s.bind((host, port))        # Bind to the port
-pending_clients = []
+if __name__ == '__main__':
+   s = socket.socket()
+   # For eth0 interface
+   host = get_ip_address('eth0')
+   # For wlan0 interface
+   #host = get_ip_address('wlan0')
+   print host
+   port = 6000                 # Reserve a port for your service.
+   s.bind((host, port))         # Bind to the port
+   pending_clients = []
 
-s.listen(5)                 # Now wait for client connection.
-while True:
-   c, addr = s.accept()     # Establish connection with client.
-   '''
-   if not addr[0] in queue_dict:
-      queue_dict[addr[0]] = most_recent
-      most_recent += 1
-   print queue_dict
-   '''
-   if not addr[0] in pending_clients:
-      pending_clients.append(addr[0])
-   print pending_clients
-   if pending_clients[0] == addr[0]:
-      response = 'ACK'
-   else:
-      response = 'NACK'
-   #response = 'Current ticket: ' + str(current_ticket) + ', Your ticket: ' + str(queue_dict[addr[0]])   
-   print 'Got connection from', addr
-   c.send(response)
-   c.close()                # Close the connection
+   s.listen(5)
+   while True:
+      c, addr = s.accept()
+      if not addr[0] in pending_clients:
+         pending_clients.append(addr[0])
+      print 'Got connection from', addr
+      print pending_clients
+      if not pending_clients[0] == addr[0]:
+         response = 'NACK'
+         c.send(response)
+         c.close()
+      else:
+         response = 'ACK'
+         c.send(response)
+         request = c.recv(1024)
+         print 'Got request:', request
+         c.close()
