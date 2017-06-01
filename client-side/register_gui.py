@@ -1,4 +1,5 @@
 import sys
+import client
 from PyQt4 import QtGui, QtCore
 
 class RegisterMenu(QtGui.QMainWindow):
@@ -29,7 +30,7 @@ class RegisterMenu(QtGui.QMainWindow):
         data_string += 'id_series:%s|' % (self.widget.id_series_line_edit.text())
         data_string += 'id_number:%s|' % (self.widget.id_number_line_edit.text())
         data_string += 'address:%s' % (self.widget.address_line_edit.text())
-        print data_string
+        client.send_command('register', data_string)
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
