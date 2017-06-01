@@ -1,4 +1,5 @@
 import sys
+import client
 from PyQt4 import QtGui, QtCore
 
 MAX_LINEEDIT_WIDTH = 500
@@ -26,7 +27,7 @@ class AutocompleteMenu(QtGui.QMainWindow):
 
     def autocompleteForm(self):
     	data_string = self.widget.id_line_edit.text()
-    	print data_string
+    	client.send_command('autocomplete', data_string)
 
     def browseFiles(self):
     	filepath = QtGui.QFileDialog.getOpenFileName(self, 'Select file', '/home')
