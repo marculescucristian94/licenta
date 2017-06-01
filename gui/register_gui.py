@@ -9,8 +9,8 @@ class RegisterMenu(QtGui.QMainWindow):
 
     def initUI(self):
         self.widget = RegisterWindowWidget(self)
-        # TODO: Button listeners
-        self.setCentralWidget(self.widget)  
+        self.setCentralWidget(self.widget)
+        self.widget.register_button.clicked.connect(self.convertInput)
         self.center()
         self.setWindowTitle('FingerPi Register')
         self.setWindowIcon(QtGui.QIcon('fingerpi.png'))
@@ -20,6 +20,16 @@ class RegisterMenu(QtGui.QMainWindow):
         cp = QtGui.QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topRight())
+
+    def convertInput(self):
+        data_string =  'name:%s|' % (self.widget.name_line_edit.text())
+        data_string += 'surname:%s|' % (self.widget.surname_line_edit.text())
+        data_string += 'birthdate:%s|' % (self.widget.birthdate_line_edit.text())
+        data_string += 'pid:%s|' % (self.widget.pid_line_edit.text())
+        data_string += 'id_series:%s|' % (self.widget.id_series_line_edit.text())
+        data_string += 'id_number:%s|' % (self.widget.id_number_line_edit.text())
+        data_string += 'address:%s' % (self.widget.address_line_edit.text())
+        print data_string
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',

@@ -12,7 +12,8 @@ class AutocompleteMenu(QtGui.QMainWindow):
     def initUI(self):
     	self.widget = AutocompleteWindowWidget(self)
     	self.widget.browse_button.clicked.connect(self.browseFiles)
-    	self.setCentralWidget(self.widget)  
+    	self.setCentralWidget(self.widget)
+    	self.widget.autocomplete_button.clicked.connect(self.autocompleteForm)  
     	self.center()
         self.setWindowTitle('FingerPi Autocomplete')
         self.setWindowIcon(QtGui.QIcon('fingerpi.png'))
@@ -22,6 +23,10 @@ class AutocompleteMenu(QtGui.QMainWindow):
         cp = QtGui.QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topRight())
+
+    def autocompleteForm(self):
+    	data_string = self.widget.id_line_edit.text()
+    	print data_string
 
     def browseFiles(self):
     	filepath = QtGui.QFileDialog.getOpenFileName(self, 'Select file', '/home')

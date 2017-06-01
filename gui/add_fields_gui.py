@@ -10,6 +10,7 @@ class AddMenu(QtGui.QMainWindow):
     def initUI(self):
     	self.widget = AddMenuWindowWidget(self)
         self.setCentralWidget(self.widget)
+        self.widget.confirm_button.clicked.connect(self.convertInput)
         self.center()
         self.setWindowTitle('FingerPi Add Fields')
         self.setWindowIcon(QtGui.QIcon('fingerpi.png'))
@@ -19,6 +20,11 @@ class AddMenu(QtGui.QMainWindow):
         cp = QtGui.QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topRight())
+
+    def convertInput(self):
+        data_string =   'fp_id:%s|' % (self.widget.id_line_edit.text())
+        data_string +=  '%s:%s' % (self.widget.field_name_line_edit.text(), self.widget.field_value_line_edit.text())
+        print data_string
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
