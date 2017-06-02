@@ -12,6 +12,15 @@ def get_ip_address(ifname):
         struct.pack('256s', ifname[:15])
     )[20:24])
 
+def register():
+	pass
+
+def autocomplete():
+	pass
+
+def add_fields():
+	pass
+
 if __name__ == '__main__':
    s = socket.socket()
    # For eth0 interface
@@ -38,10 +47,14 @@ if __name__ == '__main__':
          response = 'ACK'
          c.send(response)
          command = c.recv(1024)
+	 data = c.recv(1024)
 	 if   command == 'register':
 	 	print 'Got register request'
+		print 'Got data: ', data
 	 elif command == 'autocomplete':
 		print 'Got autocomplete request'
+		print 'Got id: ', data
 	 elif command == 'add_fields':
-		print 'Got field add request'      
+		print 'Got field add request'
+		print 'Got data: ', data      
          c.close()
