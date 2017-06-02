@@ -15,7 +15,7 @@ def get_ip_address(ifname):
 def register(data):
 	id = rs.enrollFingerprint()
 	db_layer.db_insert(id, data)
-	print id
+	return id
 
 def autocomplete():
 	pass
@@ -54,7 +54,8 @@ if __name__ == '__main__':
 	 if   command == 'register':
 	 	print 'Got register request'
 		print 'Got data: ', data
-		register(data)
+		response = str(register(data))
+		c.send(response)
 	 elif command == 'autocomplete':
 		print 'Got autocomplete request'
 		print 'Got id: ', data
