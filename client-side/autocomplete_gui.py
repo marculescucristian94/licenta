@@ -27,7 +27,7 @@ class AutocompleteMenu(QtGui.QMainWindow):
 
     def autocompleteForm(self):
     	data_string = self.widget.id_line_edit.text()
-    	client.send_command('autocomplete', data_string)
+    	client.send_command('autocomplete', str(data_string))
 
     def browseFiles(self):
     	filepath = QtGui.QFileDialog.getOpenFileName(self, 'Select file', '/home')
