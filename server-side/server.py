@@ -37,6 +37,11 @@ if __name__ == '__main__':
       else:
          response = 'ACK'
          c.send(response)
-         request = c.recv(1024)
-         print 'Got request:', request
+         command = c.recv(1024)
+	 if   command == 'register':
+	 	print 'Got register request'
+	 elif command == 'autocomplete':
+		print 'Got autocomplete request'
+	 elif command == 'add_fields':
+		print 'Got field add request'      
          c.close()
