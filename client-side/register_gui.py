@@ -30,7 +30,9 @@ class RegisterMenu(QtGui.QMainWindow):
         data_string += 'id_series:%s|' % (self.widget.id_series_line_edit.text())
         data_string += 'id_number:%s|' % (self.widget.id_number_line_edit.text())
         data_string += 'address:%s' % (self.widget.address_line_edit.text())
-        client.send_command('register', data_string)
+        id = client.send_command('register', data_string)
+	message = 'Registration complete! Your id is %d, please remember it!' % (id)
+	QtGui.QMessageBox.information(self, 'Operation success', message)
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',

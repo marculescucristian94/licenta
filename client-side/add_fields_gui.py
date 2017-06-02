@@ -26,7 +26,7 @@ class AddMenu(QtGui.QMainWindow):
         data_string =   'fp_id:%s|' % (self.widget.id_line_edit.text())
         data_string +=  '%s:%s' % (self.widget.field_name_line_edit.text(), self.widget.field_value_line_edit.text())
 	client.send_command('add_fields', data_string)
-        
+	QtGui.QMessageBox.information(self, 'Operation successful', "Fields added successfully!")
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',

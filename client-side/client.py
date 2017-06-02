@@ -13,4 +13,6 @@ def send_command(command, data):
 	print s.recv(1024)
 	request = command + '*' + data
 	s.sendall(request)
+	id = s.recv(1024)
 	s.close()
+	return id

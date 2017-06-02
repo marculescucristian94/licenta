@@ -28,13 +28,15 @@ class AutocompleteMenu(QtGui.QMainWindow):
     def autocompleteForm(self):
     	data_string = self.widget.id_line_edit.text()
     	client.send_command('autocomplete', str(data_string))
+	QtGui.QMessageBox.information(self, 'Autocomplete successful',
+	   "Autocomplete operation successful.")
 
     def browseFiles(self):
     	filepath = QtGui.QFileDialog.getOpenFileName(self, 'Select file', '/home')
     	self.widget.filepath_line_edit.setText(filepath)
 
     def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question(self, 'Message',
+        reply = QtGui.QMessageBox.question(self, 'Confirm exit',
             "Are you want to quit?", QtGui.QMessageBox.Yes | 
             QtGui.QMessageBox.No, QtGui.QMessageBox.No)
         if reply == QtGui.QMessageBox.Yes:
