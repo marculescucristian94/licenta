@@ -11,5 +11,6 @@ def send_command(command, data):
 	port = server_info[1]
 	s.connect((host, port))
 	print s.recv(1024)
-	s.sendall(command)
+	request = command + '*' + data
+	s.sendall(request)
 	s.close()
