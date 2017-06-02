@@ -51,8 +51,9 @@ def db_delete(fingerprint_id):
     conn.close()
         
 
-if __name__ == '__main__':
-    db_insert(1, 'name:cristian|surname:marculescu')
-    db_select(1)
-    db_delete(1)
+#if __name__ == '__main__':
+#    db_insert(1, 'name:cristian|surname:marculescu')
+#    db_select(1)
+#    db_delete(1)
         
+db_select(169)

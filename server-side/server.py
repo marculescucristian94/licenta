@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import socket
-import fcntl
-import struct
+import socket, fcntl, struct
+from register import register_service as rs
+from database import db_layer
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -12,8 +12,10 @@ def get_ip_address(ifname):
         struct.pack('256s', ifname[:15])
     )[20:24])
 
-def register():
-	pass
+def register(data):
+	id = rs.enrollFingerprint()
+	db_layer.db_insert(id, data)
+	print id
 
 def autocomplete():
 	pass
@@ -52,6 +54,7 @@ if __name__ == '__main__':
 	 if   command == 'register':
 	 	print 'Got register request'
 		print 'Got data: ', data
+		register(data)
 	 elif command == 'autocomplete':
 		print 'Got autocomplete request'
 		print 'Got id: ', data
