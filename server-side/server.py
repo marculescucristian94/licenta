@@ -46,8 +46,9 @@ if __name__ == '__main__':
       else:
          response = 'ACK'
          c.send(response)
-         command = c.recv(1024)
-	 data = c.recv(1024)
+	 request = c.recv(1024)
+         command = request.split('*')[0]
+	 data = request.split('*')[1]
 	 if   command == 'register':
 	 	print 'Got register request'
 		print 'Got data: ', data
