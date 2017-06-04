@@ -79,6 +79,7 @@ def EnrollFingerPrint(f):
     print 'Fingerprint enroll completed, registered at id: ' + str(id)
 
 def MatchID(id):
+    match = False
     f = fp.FingerPi(port = '/dev/ttyAMA0')
     print 'Opening connection...'
     f.Open(extra_info = False, check_baudrate = False)
@@ -99,12 +100,14 @@ def MatchID(id):
     if response[0]['ACK']:
 	if id == response[0]['Parameter']:
 		print 'Given id matched with fingerprint id!'
+		match = True
 	else:
 		print 'Given id does not match with fingerprint id!'
     else:
 	print 'Your fingerprint did not match with any stocked fingerprint!' 
     print 'Closing connection...'
     f.Close()
+    return match
 
 '''
 if __name__ == '__main__':
@@ -123,4 +126,4 @@ if __name__ == '__main__':
     print 'Closing connection...'
     f.Close()
 '''
-MatchID(0)
+#MatchID(0)

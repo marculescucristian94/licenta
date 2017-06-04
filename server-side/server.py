@@ -2,6 +2,7 @@
 
 import socket, fcntl, struct
 from register import register_service as rs
+from identify import identification_service as iden_s
 from database import db_layer
 
 def get_ip_address(ifname):
@@ -17,8 +18,11 @@ def register(data):
 	db_layer.db_insert(id, data)
 	return id
 
-def autocomplete():
-	pass
+def autocomplete(id):
+	if iden_s.MatchID(id):
+		return db_layer.db_select(id)
+	else:
+		return 'mismatch'
 
 def add_fields():
 	pass
@@ -59,6 +63,9 @@ if __name__ == '__main__':
 	 elif command == 'autocomplete':
 		print 'Got autocomplete request'
 		print 'Got id: ', data
+		response = autocomplete(int(data))
+		print response
+		c.send(response)
 	 elif command == 'add_fields':
 		print 'Got field add request'
 		print 'Got data: ', data      

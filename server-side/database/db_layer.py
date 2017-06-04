@@ -1,6 +1,6 @@
 import sqlite3
 
-DATABASE = 'rasprint.db'
+DATABASE = 'database/rasprint.db'
 
 # obtains the values that are inserted into the database 
 def to_dict(data):
