@@ -27,9 +27,12 @@ class AutocompleteMenu(QtGui.QMainWindow):
 
     def autocompleteForm(self):
     	data_string = self.widget.id_line_edit.text()
-    	client.send_command('autocomplete', str(data_string))
-	QtGui.QMessageBox.information(self, 'Autocomplete successful',
-	   "Autocomplete operation successful.")
+    	response = client.send_command('autocomplete', str(data_string))
+	print response
+	if not response == 'mismatch':
+		QtGui.QMessageBox.information(self, 'Autocomplete successful', "Autocomplete operation successful.")
+	else:
+		QtGui.QMessageBox.information(self, 'Autocomplete failed', "Scanned fingerprint did not match with the given id. Please try again.")
 
     def browseFiles(self):
     	filepath = QtGui.QFileDialog.getOpenFileName(self, 'Select file', '/home')

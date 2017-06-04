@@ -17,5 +17,11 @@ def send_command(command, data):
 		id = s.recv(1024)
 		s.close()
 		return id
-	else:
+	elif command == 'autocomplete':
+		response = s.recv(1024)
 		s.close()
+		return response
+	elif command == 'add_fields':
+		response = s.recv(1024)
+		s.close()
+		return response
