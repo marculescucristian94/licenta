@@ -65,5 +65,5 @@ def db_delete(fingerprint_id):
 #    db_select(1)
 #    db_delete(1)
         
-#db_select(0)
+#print db_select(0)
 #db_select(1)
