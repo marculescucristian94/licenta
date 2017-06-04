@@ -98,8 +98,12 @@ def enrollFingerprint(delayTimer = 0.5):
     fps = FPS.FPS_GT511C3(device_name='/dev/ttyAMA0', baud=9600, timeout=2, is_com=False)
     fps.UseSerialDebug = False
     print 'Starting fingerprint enroll process...'
-    # Taken ids: 0 (stoia), 1 (stoia), 69 (cu informatii in db), 100, 101
-    id = 169
+    # Taken ids: 0,1 (stoia), 100, 101, 169 (with db info)
+    for i in xrange(200):
+	if not fps.CheckEnroll(i):
+		id = i
+		print 'Attempting registration with id:', id
+		break
     if fps.EnrollStart(id) != 0:
         print 'Some error occured at EnrollStart'
         FPS.delay(delayTimer)
@@ -137,7 +141,7 @@ def fingerprintID(fps, delayTimer = 0.5):
 if __name__ == '__main__':
     fps = FPS.FPS_GT511C3(device_name='/dev/ttyAMA0',baud=9600,timeout=2,is_com=False)
     fps.UseSerialDebug = False
-    enrollFingerprint(fps)
+##    enrollFingerprint(fps)
 ##    fingerprintID(fps)
 ##    if fps.CheckEnrolled(0) == True:
 ##        print '0 is enrolled'
@@ -152,6 +156,9 @@ if __name__ == '__main__':
 ##        print '57 is enrolled'
 ##    FPS.delay(0.5)
 ##    print 'Enrolled fingerprints: ' + str(fps.GetEnrollCount())
+    for i in xrange(200):
+	if fps.CheckEnrolled(i) == True:
+		print i, 'is enrolled'
     FPS.delay(0.5)
     fps.Close()
 '''
