@@ -24,8 +24,12 @@ def autocomplete(id):
 	else:
 		return 'mismatch'
 
-def add_fields():
-	pass
+def add_fields(id, data):
+	if iden_s.MatchID(id):
+		db_layer.db_insert(id, data) 
+		return 'ACK'
+	else:
+		return 'NACK'
 
 if __name__ == '__main__':
    s = socket.socket()
@@ -54,19 +58,26 @@ if __name__ == '__main__':
          c.send(response)
 	 request = c.recv(1024)
          command = request.split('*')[0]
-	 data = request.split('*')[1]
+	 #data = request.split('*')[1]
 	 if   command == 'register':
 	 	print 'Got register request'
+		data = request.split('*')[1]
 		print 'Got data: ', data
 		response = str(register(data))
 		c.send(response)
 	 elif command == 'autocomplete':
 		print 'Got autocomplete request'
-		print 'Got id: ', data
-		response = autocomplete(int(data))
+		id = int(request.split('*')[1])
+		print 'Got id: ', id
+		response = autocomplete(id)
 		print response
 		c.send(response)
 	 elif command == 'add_fields':
 		print 'Got field add request'
-		print 'Got data: ', data      
+		id = int(request.split('*')[1])
+		print 'Got id: ', id
+		data = request.split('*')[2]
+		print 'Got data: ', data
+		response = add_fields(id, data)
+		c.send(response)      
          c.close()
