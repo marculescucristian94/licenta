@@ -11,6 +11,14 @@ def to_dict(data):
         ret_dict[key] = value
     return ret_dict
 
+# converts query results to data strings
+def to_data(query_result):
+    data_string = ''
+    for pair in query_result:
+	to_append = '%s:%s|' % (pair[0], pair[1])
+	data_string += to_append
+    return data_string
+
 # inserts or updates data
 def db_insert(fingerprint_id, data):
     conn = sqlite3.connect(DATABASE)
@@ -39,8 +47,9 @@ def db_select(fingerprint_id):
     c = conn.cursor()
     c.execute('SELECT field_type, field_value FROM user_data WHERE fp_id = %d' % (fingerprint_id))
     result = c.fetchall()
-    print result
+    data_string = to_data(result)
     conn.close()
+    return data_string
 
 # wipes all data for fingerprint_id
 def db_delete(fingerprint_id):
@@ -56,4 +65,5 @@ def db_delete(fingerprint_id):
 #    db_select(1)
 #    db_delete(1)
         
-#db_select(169)
+#db_select(0)
+#db_select(1)

@@ -100,7 +100,7 @@ def enrollFingerprint(delayTimer = 0.5):
     print 'Starting fingerprint enroll process...'
     # Taken ids: 0,1 (stoia), 100, 101, 169 (with db info)
     for i in xrange(200):
-	if not fps.CheckEnroll(i):
+	if not fps.CheckEnrolled(i):
 		id = i
 		print 'Attempting registration with id:', id
 		break

@@ -78,7 +78,14 @@ def EnrollFingerPrint(f):
         capture(f, phase)
     print 'Fingerprint enroll completed, registered at id: ' + str(id)
 
-def GetFingerID(f):
+def MatchID(id):
+    f = fp.FingerPi(port = '/dev/ttyAMA0')
+    print 'Opening connection...'
+    f.Open(extra_info = False, check_baudrate = False)
+    time.sleep(DELAY_TIME)
+    print 'Setting baudrate to: ' + str(BAUD_RATE)
+    f.ChangeBaudrate(BAUD_RATE)
+    time.sleep(DELAY_TIME)
     print 'Starting fingerprint matching, please put your finger in the scanner...'
     f.CmosLed(True)
     time.sleep(DELAY_TIME)
@@ -90,10 +97,16 @@ def GetFingerID(f):
     response = f.Identify()
 ##  Modified base.py line 107 to make this work    
     if response[0]['ACK']:
-        print 'Your fingerprint matched with the id: ' + str(response[0]['Parameter'])
+	if id == response[0]['Parameter']:
+		print 'Given id matched with fingerprint id!'
+	else:
+		print 'Given id does not match with fingerprint id!'
     else:
-        print 'Your fingerprint did not match'
+	print 'Your fingerprint did not match with any stocked fingerprint!' 
+    print 'Closing connection...'
+    f.Close()
 
+'''
 if __name__ == '__main__':
     f = fp.FingerPi(port = '/dev/ttyAMA0')
     print 'Opening connection...'
@@ -104,7 +117,10 @@ if __name__ == '__main__':
     time.sleep(DELAY_TIME)
 ##    EnrollFingerPrint(f)
 ##    print f.GetEnrollCount()
-    GetFingerID(f)
+##    GetFingerID(f)
 ##    CheckFingerPress(f)
+    f.DeleteAll()
     print 'Closing connection...'
     f.Close()
+'''
+MatchID(0)
