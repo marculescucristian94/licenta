@@ -1,6 +1,7 @@
 import sys
 import client
 from PyQt4 import QtGui, QtCore
+from autocomplete_tools import pdf_filler 
 
 MAX_LINEEDIT_WIDTH = 500
 
@@ -27,9 +28,12 @@ class AutocompleteMenu(QtGui.QMainWindow):
 
     def autocompleteForm(self):
     	data_string = self.widget.id_line_edit.text()
+	filepath = self.widget.filepath_line_edit.text()
     	response = client.send_command('autocomplete', str(data_string))
-	print response
 	if not response == 'mismatch':
+		print response
+		print filepath
+		pdf_filler.autocomplete_pdf(response, filepath)
 		QtGui.QMessageBox.information(self, 'Autocomplete successful', "Autocomplete operation successful.")
 	else:
 		QtGui.QMessageBox.information(self, 'Autocomplete failed', "Scanned fingerprint did not match with the given id. Please try again.")
