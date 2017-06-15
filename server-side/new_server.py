@@ -37,9 +37,9 @@ class ThreadedServer(object):
 	def add_fields(self, id, data):
 		if iden_s.MatchID(id):
 			db_layer.db_insert(id, data) 
-			return 'ACK'
+			return 'success'
 		else:
-			return 'NACK'
+			return 'failure'
 
 	def listen(self):
 		self.sock.listen(10)
