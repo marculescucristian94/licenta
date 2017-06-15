@@ -27,17 +27,20 @@ class ThreadedServer(object):
 
 	def register(self, data):
 		id = rs.enrollFingerprint(self.lcd)
+		self.lcd.lcd_display_text('Adding info to database...')
 		db_layer.db_insert(id, data)
 		return id
 
 	def autocomplete(self, id):
-		if iden_s.MatchID(id):
+		if iden_s.MatchID(id, self.lcd):
+			self.lcd.lcd_display_text('Getting info from database...')
 			return db_layer.db_select(id)
 		else:
 			return 'mismatch'
 
 	def add_fields(self, id, data):
-		if iden_s.MatchID(id):
+		if iden_s.MatchID(id, self.lcd):
+			self.lcd.lcd_display_text('Getting info from database...')
 			db_layer.db_insert(id, data) 
 			return 'success'
 		else:
@@ -92,7 +95,7 @@ class ThreadedServer(object):
 			self.pending_clients.remove(address[0])
 		finally:
 			self.queue_lock.release()
-		if len(pending_clients) == 0:
+		if len(self.pending_clients) == 0:
 			self.lcd.lcd_display_text('Awaiting connections...')      
          	client.close()
 

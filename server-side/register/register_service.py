@@ -102,8 +102,8 @@ def capture(fps, phase, lcd, delayTimer = 0.5):
                 return False
             FPS.delay(delayTimer)
             print 'Final phase complete. Fingerprint has been registered!'
-            fps.SetLED(False)
 	    lcd.lcd_display_text('Enrollment success!')
+            fps.SetLED(False)
             FPS.delay(delayTimer)
             return True
 
@@ -129,6 +129,7 @@ def enrollFingerprint(lcd, delayTimer = 0.5):
 	    FPS.delay(delayTimer)
             fps.Close()
             return -1
+    fps.Close()
     return id
         
 def fingerprintID(fps, delayTimer = 0.5):

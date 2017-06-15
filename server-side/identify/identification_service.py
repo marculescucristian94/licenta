@@ -78,16 +78,18 @@ def EnrollFingerPrint(f):
         capture(f, phase)
     print 'Fingerprint enroll completed, registered at id: ' + str(id)
 
-def MatchID(id):
+def MatchID(id, lcd):
     match = False
     f = fp.FingerPi(port = '/dev/ttyAMA0')
     print 'Opening connection...'
+    lcd.lcd_display_text('Opening scanner...')
     f.Open(extra_info = False, check_baudrate = False)
     time.sleep(DELAY_TIME)
     print 'Setting baudrate to: ' + str(BAUD_RATE)
     f.ChangeBaudrate(BAUD_RATE)
     time.sleep(DELAY_TIME)
     print 'Starting fingerprint matching, please put your finger in the scanner...'
+    lcd.lcd_display_text('Please place your finger...')
     f.CmosLed(True)
     time.sleep(DELAY_TIME)
     CycleUntilPressed(f)
@@ -100,11 +102,14 @@ def MatchID(id):
     if response[0]['ACK']:
 	if id == response[0]['Parameter']:
 		print 'Given id matched with fingerprint id!'
+		lcd.lcd_display_text('Fingerprint matched!')
 		match = True
 	else:
 		print 'Given id does not match with fingerprint id!'
+		lcd.lcd_display_text('Fingerprint mismatch!')
     else:
-	print 'Your fingerprint did not match with any stocked fingerprint!' 
+	print 'Your fingerprint did not match with any stocked fingerprint!'
+	lcd.lcd_display_text('Fingerprint mismatch!') 
     print 'Closing connection...'
     f.Close()
     return match
