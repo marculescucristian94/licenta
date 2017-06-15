@@ -26,7 +26,7 @@ class AddMenu(QtGui.QMainWindow):
         data_string =   '%s*' % (self.widget.id_line_edit.text())
         data_string +=  '%s:%s' % (self.widget.field_name_line_edit.text(), self.widget.field_value_line_edit.text())
 	response = client.send_command('add_fields', data_string)
-	if response == 'ACK':
+	if response == 'success':
 		QtGui.QMessageBox.information(self, 'Operation successful', "Fields added successfully!")
 	else:
 		QtGui.QMessageBox.information(self, 'Operation failed', "Field adding failed. Please try again.")
