@@ -12,9 +12,11 @@ IFNAME = 'eth0'
 class ThreadedServer(object):
 	def __init__(self):
 		self.host = self.get_ip_address(IFNAME)
+		print self.host
         	self.port = RASPRINT_PORT
 		self.sock = socket.socket()
 		self.pending_clients = []
+		self.queue_lock = threading.Lock()
 		self.sock.bind((self.host, self.port))
 
 	def get_ip_address(self, ifname):
@@ -46,7 +48,11 @@ class ThreadedServer(object):
 			client.settimeout(60)
 			print 'Got connection from', address
 			if not address[0] in self.pending_clients:
-         			self.pending_clients.append(address[0])
+				self.queue_lock.acquire()
+				try:
+         				self.pending_clients.append(address[0])
+				finally:
+					self.queue_lock.release()
 			if not self.pending_clients[0] == address[0]:
          			response = 'NACK'
          			client.send(response)
@@ -54,7 +60,7 @@ class ThreadedServer(object):
      			else:
          			response = 'ACK'
          			client.send(response)
-				threading.Thread(target = self.solveRequest, args = (client, address))
+				threading.Thread(target = self.solveRequest, args = (client, address)).start()
 
 	def solveRequest(self, client, address):
 		request = client.recv(MAX_SIZE)
@@ -78,6 +84,11 @@ class ThreadedServer(object):
 			print 'Got data: ', data
 			response = self.add_fields(id, data)
 		client.send(response)
+		self.queue_lock.acquire()
+		try:
+			self.pending_clients.remove(address[0])
+		finally:
+			self.queue_lock.release()
 		# remove client from queue      
          	client.close()
 
