@@ -4,6 +4,7 @@ import socket, fcntl, struct, threading
 from register import register_service as rs
 from identify import identification_service as iden_s
 from database import db_layer
+from lcd import I2C_LCD_driver 
 
 RASPRINT_PORT = 6000
 MAX_SIZE = 1024
@@ -17,6 +18,7 @@ class ThreadedServer(object):
 		self.sock = socket.socket()
 		self.pending_clients = []
 		self.queue_lock = threading.Lock()
+		self.lcd = I2C_LCD_driver.lcd()
 		self.sock.bind((self.host, self.port))
 
 	def get_ip_address(self, ifname):
@@ -24,7 +26,7 @@ class ThreadedServer(object):
     		return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', ifname[:15]))[20:24])
 
 	def register(self, data):
-		id = rs.enrollFingerprint()
+		id = rs.enrollFingerprint(self.lcd)
 		db_layer.db_insert(id, data)
 		return id
 
@@ -42,6 +44,7 @@ class ThreadedServer(object):
 			return 'failure'
 
 	def listen(self):
+		self.lcd.lcd_display_text('Awaiting connections...')
 		self.sock.listen(10)
 		while True:
 			client, address = self.sock.accept()
@@ -89,7 +92,8 @@ class ThreadedServer(object):
 			self.pending_clients.remove(address[0])
 		finally:
 			self.queue_lock.release()
-		# remove client from queue      
+		if len(pending_clients) == 0:
+			self.lcd.lcd_display_text('Awaiting connections...')      
          	client.close()
 
 if __name__ == "__main__":

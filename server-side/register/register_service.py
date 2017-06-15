@@ -41,64 +41,78 @@ def cycleUntilNotPressed(fps, delayTimer = 0.5):
                 return
         FPS.delay(delayTimer)
 
-def capture(fps, phase, delayTimer = 0.5):
+def capture(fps, phase, lcd, delayTimer = 0.5):
     print 'Place your fingerprint now and please keep it pressed'
     fps.SetLED(True)
     FPS.delay(delayTimer)
+    lcd.lcd_display_text('Please place your finger...')
     cycleUntilPressed(fps)
     if phase == 1:
         print 'Starting 1st phase of enrollment, please do not lift your finger...'
+	lcd.lcd_display_text('Capturing fingerprint...')
         if fps.CaptureFinger() == False:
             print 'Something went wrong while capturing your fingerprint'
+	    lcd.lcd_display_text('Enrollment failed!')
             return False
         else:
             FPS.delay(delayTimer)
             if fps.Enroll1() != 0:
                 print 'Some error occured at Enroll1'
+		lcd.lcd_display_text('Enrollment failed!')
                 return False
             FPS.delay(delayTimer)
             print '1st phase complete. Please lift your finger for a moment...'
             fps.SetLED(False)
             FPS.delay(delayTimer)
+	    lcd.lcd_display_text('Please lift your finger...')
             cycleUntilNotPressed(fps)
             return True
     elif phase == 2:
         print 'Starting 2nd phase of enrollment, please do not lift your finger...'
+	lcd.lcd_display_text('Capturing fingerprint...')	
         if fps.CaptureFinger() == False:
             print 'Something went wrong while capturing your fingerprint'
+	    lcd.lcd_display_text('Enrollment failed!')
             return False
         else:
             FPS.delay(delayTimer)
             if fps.Enroll2() != 0:
                 print 'Some error occured at Enroll2'
+		lcd.lcd_display_text('Enrollment failed!')
                 return False
             FPS.delay(delayTimer)
             print '2nd phase complete. Please lift your finger for a moment...'
             fps.SetLED(False)
             FPS.delay(delayTimer)
+	    lcd.lcd_display_text('Please lift your finger...')
             cycleUntilNotPressed(fps)
             return True
     elif phase == 3:
         print 'Starting final phase of enrollment, please do not lift your finger...'
+	lcd.lcd_display_text('Capturing fingerprint...')
         if fps.CaptureFinger() == False:
             print 'Something went wrong while capturing your fingerprint'
+	    lcd.lcd_display_text('Enrollment failed!')
             return False
         else:
             FPS.delay(delayTimer)
             if fps.Enroll3() != 0:
                 print 'Some error occured at Enroll3'
+		lcd.lcd_display_text('Enrollment failed!') 
                 return False
             FPS.delay(delayTimer)
             print 'Final phase complete. Fingerprint has been registered!'
             fps.SetLED(False)
+	    lcd.lcd_display_text('Enrollment success!')
             FPS.delay(delayTimer)
             return True
 
-def enrollFingerprint(delayTimer = 0.5):
+def enrollFingerprint(lcd, delayTimer = 0.5):
+    lcd.lcd_display_text('Opening scanner...')
     fps = FPS.FPS_GT511C3(device_name='/dev/ttyAMA0', baud=9600, timeout=2, is_com=False)
     fps.UseSerialDebug = False
+    lcd.lcd_display_text('Starting enrollment...')
     print 'Starting fingerprint enroll process...'
-    # Taken ids: 0,1 (stoia), 100, 101, 169 (with db info)
     for i in xrange(200):
 	if not fps.CheckEnrolled(i):
 		id = i
@@ -111,7 +125,7 @@ def enrollFingerprint(delayTimer = 0.5):
         return -1
     FPS.delay(delayTimer)
     for i in xrange(1, 4):
-        if not capture(fps, i):
+        if not capture(fps, i, lcd):
 	    FPS.delay(delayTimer)
             fps.Close()
             return -1

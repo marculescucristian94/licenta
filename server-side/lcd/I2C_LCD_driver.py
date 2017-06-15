@@ -202,10 +202,6 @@ class lcd:
             line2.append(word + ' ')
       self.lcd_display_string(''.join(line1), 1)
       self.lcd_display_string(''.join(line2), 2)
-      print line1
-      print line2
-            
-         
          
 
 
