@@ -13,7 +13,6 @@ IFNAME = 'eth0'
 class ThreadedServer(object):
 	def __init__(self):
 		self.host = self.get_ip_address(IFNAME)
-		print self.host
         	self.port = RASPRINT_PORT
 		self.sock = socket.socket()
 		self.pending_clients = []
