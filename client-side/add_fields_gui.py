@@ -13,8 +13,8 @@ class AddMenu(QtGui.QMainWindow):
         self.setCentralWidget(self.widget)
         self.widget.confirm_button.clicked.connect(self.convertInput)
         self.center()
-        self.setWindowTitle('FingerPi Add Fields')
-        self.setWindowIcon(QtGui.QIcon('fingerpi.png'))
+        self.setWindowTitle('RASPrint Add/Update Fields')
+        self.setWindowIcon(QtGui.QIcon('RASPrint.png'))
 
     def center(self):
         qr = self.frameGeometry()
@@ -32,7 +32,7 @@ class AddMenu(QtGui.QMainWindow):
 		QtGui.QMessageBox.information(self, 'Operation failed', "Field adding failed. Please try again.")
 
     def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question(self, 'Message',
+        reply = QtGui.QMessageBox.question(self, 'Confirm Exit',
             "Are you want to quit?", QtGui.QMessageBox.Yes | 
             QtGui.QMessageBox.No, QtGui.QMessageBox.No)
         if reply == QtGui.QMessageBox.Yes:
@@ -48,7 +48,7 @@ class AddMenuWindowWidget(QtGui.QWidget):
         # Labels and buttons
         self.id_label = QtGui.QLabel('Fingerprint ID')
         self.id_line_edit = QtGui.QLineEdit(self)
-        self.id_line_edit.setToolTip('The id registered on the FingerPi device')
+        self.id_line_edit.setToolTip('The id registered on the RASPrint device')
         self.field_name_label = QtGui.QLabel('Field name')
         self.field_name_line_edit = QtGui.QLineEdit(self)
         self.field_name_line_edit.setToolTip('The name of the field found in the PDF form')

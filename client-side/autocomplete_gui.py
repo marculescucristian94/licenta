@@ -17,8 +17,8 @@ class AutocompleteMenu(QtGui.QMainWindow):
     	self.setCentralWidget(self.widget)
     	self.widget.autocomplete_button.clicked.connect(self.autocompleteForm)  
     	self.center()
-        self.setWindowTitle('FingerPi Autocomplete')
-        self.setWindowIcon(QtGui.QIcon('fingerpi.png'))
+        self.setWindowTitle('RASPrint Autocomplete')
+        self.setWindowIcon(QtGui.QIcon('RASPrint.png'))
 
     def center(self):
         qr = self.frameGeometry()
@@ -43,7 +43,7 @@ class AutocompleteMenu(QtGui.QMainWindow):
     	self.widget.filepath_line_edit.setText(filepath)
 
     def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question(self, 'Confirm exit',
+        reply = QtGui.QMessageBox.question(self, 'Confirm Exit',
             "Are you want to quit?", QtGui.QMessageBox.Yes | 
             QtGui.QMessageBox.No, QtGui.QMessageBox.No)
         if reply == QtGui.QMessageBox.Yes:
