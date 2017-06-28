@@ -114,7 +114,7 @@ def MatchID(id, lcd):
     f.Close()
     return match
 
-'''
+
 if __name__ == '__main__':
     f = fp.FingerPi(port = '/dev/ttyAMA0')
     print 'Opening connection...'
@@ -127,8 +127,12 @@ if __name__ == '__main__':
 ##    print f.GetEnrollCount()
 ##    GetFingerID(f)
 ##    CheckFingerPress(f)
-    f.DeleteAll()
+    #f.DeleteAll()
+    f.CmosLed(True)
+    CycleUntilPressed(f)
+    f.CaptureFinger(False)
+    f.CmosLed(False)
+    print f.Identify()
     print 'Closing connection...'
     f.Close()
-'''
 #MatchID(0)
