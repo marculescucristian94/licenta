@@ -114,7 +114,7 @@ def MatchID(id, lcd):
     f.Close()
     return match
 
-
+'''
 if __name__ == '__main__':
     f = fp.FingerPi(port = '/dev/ttyAMA0')
     print 'Opening connection...'
@@ -123,10 +123,10 @@ if __name__ == '__main__':
     print 'Setting baudrate to: ' + str(BAUD_RATE)
     f.ChangeBaudrate(BAUD_RATE)
     time.sleep(DELAY_TIME)
-##    EnrollFingerPrint(f)
-##    print f.GetEnrollCount()
-##    GetFingerID(f)
-##    CheckFingerPress(f)
+    ##    EnrollFingerPrint(f)
+    ##    print f.GetEnrollCount()
+    ##    GetFingerID(f)
+    ##    CheckFingerPress(f)
     #f.DeleteAll()
     f.CmosLed(True)
     CycleUntilPressed(f)
@@ -135,4 +135,5 @@ if __name__ == '__main__':
     print f.Identify()
     print 'Closing connection...'
     f.Close()
-#MatchID(0)
+    #MatchID(0)
+'''
