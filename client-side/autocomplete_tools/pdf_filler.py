@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 import fdfgen
 
 FDF_FILENAME = 'autocomplete_tools/fields.fdf'
@@ -11,6 +11,7 @@ def to_pair_list(data):
         if len(pair.split(':')) == 2:
 		name, value = pair.split(':')
         	pair_list.append((name, value))
+    pair_list.append(('date', time.strftime("%d/%m/%Y")))
     return pair_list
 
 def autocomplete_pdf(data, filepath):
@@ -20,7 +21,6 @@ def autocomplete_pdf(data, filepath):
 	fdf_file.write(fdf_data)
 	fdf_file.close()
 	destination = '/'.join(str(filepath).split('/')[:-1]) + '/completed.pdf'
-	print destination
 	pdftk_cmd = "pdftk %s fill_form %s output %s flatten" % (filepath, FDF_FILENAME, destination)
 	os.system(pdftk_cmd)
 	os.remove(FDF_FILENAME)
